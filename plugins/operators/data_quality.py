@@ -27,10 +27,10 @@ class DataQualityOperator(BaseOperator):
         self.log.info(f"Number of Records: " + str(records))
 
         if len(records) < 1 or len(records[0]) < 1:
-            raise ValueError(f"Data quality check failed. {self.table} returned no results")
+            raise ValueError(f"Data quality check failed.No data found in table {self.table}")
         
         num_records = records[0][0]
         if num_records < 1:
-            raise ValueError(f"Data quality check failed. {self.table} contained 0 rows")
+            raise ValueError(f"Data quality check failed.Table {self.table} contains 0 rows")
         
-        self.log.info(f"Data quality on table {self.table} check passed with {records[0][0]} records")
+        self.log.info(f"Data quality check successed on table  {self.table}, found {records[0][0]} records")
