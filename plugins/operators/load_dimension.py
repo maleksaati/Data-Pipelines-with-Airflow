@@ -11,12 +11,14 @@ class LoadDimensionOperator(BaseOperator):
                  redshift_conn_id="",
                  table="",
                  insertTable = "",
+                 append_or_delte = False,
                  *args, **kwargs):
 
         super(LoadDimensionOperator, self).__init__(*args, **kwargs)
         self.redshift_conn_id = redshift_conn_id
         self.table = table
         self.insertTable = insertTable
+        self.append_or_delte = append_or_delte
  
 
     def execute(self, context):
@@ -25,10 +27,10 @@ class LoadDimensionOperator(BaseOperator):
         insertTable = self.insertTable
         redshift = PostgresHook(postgres_conn_id=self.redshift_conn_id)
         self.log.info("Write table {}".format(table))
-        
-        sql = f"DELETE FROM {table}"
-        redshift.run(sql)
-        self.log.info("Clean the table: {}".format(table))
+        if self.append_or_delte:  
+            sql = f"TRUNCATE TABLE {table}"
+            redshift.run(sql)
+            self.log.info("Clean the table: {}".format(table))
 
         sql = f"INSERT INTO {table} {insertTable}"
         self.log.info("SQL: \n {}".format(sql))

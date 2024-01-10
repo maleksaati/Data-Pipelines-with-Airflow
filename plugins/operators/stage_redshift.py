@@ -48,8 +48,8 @@ class StageToRedshiftOperator(BaseOperator):
         credentials = aws_hook.get_credentials()
         redshift = PostgresHook(postgres_conn_id=self.redshift_conn_id)
         
-        self.log.info("DELETE FROM  {}".format(self.table))
-        redshift.run("DELETE FROM  {}".format(self.table))
+        self.log.info("TRUNCATE TABLE {}".format(self.table))
+        redshift.run("TRUNCATE TABLE {}".format(self.table))
         
         formatted_sql = StageToRedshiftOperator.copy_sql.format(
             self.table,
