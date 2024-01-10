@@ -32,7 +32,7 @@ stage_events_to_redshift = StageToRedshiftOperator(
     task_id='Stage_events',
     redshift_conn_id="redshift",
     aws_credentials_id="aws_credentials",
-    region = 'us-west-2',
+    region = 'us-east-2',
     table="staging_events",
     s3_bucket="s3://udacity-dend/log_data",
     json_path = "s3://udacity-dend/log_json_path.json",
@@ -94,7 +94,6 @@ load_time_dimension_table = LoadDimensionOperator(
 
 run_quality_checks = DataQualityOperator(
     task_id='Run_data_quality_checks',
-    dag=dag,
     field="playid",
     table='songplays',
     redshift_conn_id="redshift",
