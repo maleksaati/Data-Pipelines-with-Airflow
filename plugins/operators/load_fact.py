@@ -19,11 +19,11 @@ class LoadFactOperator(BaseOperator):
         self.insertTable = insertTable
 
     def execute(self, context):
-        self.log.info('LoadFactOperator')
+        self.log.info("LoadFactOperator for : {}".format(self.table))
         table = self.table
         insertTable = self.insertTable
         redshift = PostgresHook(postgres_conn_id=self.redshift_conn_id)
         self.log.info("Write table {}".format(table))
         sql = f"INSERT INTO {table} {insertTable}"
-        self.log.info("SQL LoadFactOperator \n {}".format(sql))
+        self.log.info("SQL: \n {}".format(sql))
         redshift.run(sql)
